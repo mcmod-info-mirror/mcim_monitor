@@ -50,7 +50,7 @@ datasources:
   - name: Loki
     type: loki
     access: proxy
-    url: https://loki:3100
+    url: http://loki:3100
     jsonData:
       timeout: 60
       maxLines: 1000

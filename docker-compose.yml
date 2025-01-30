@@ -28,15 +28,15 @@ services:
     logging: *loki-logging
 
   prometheus:
+    container_name: prometheus
     image: prom/prometheus:latest
     restart: always
-    container_name: prometheus
     ports:
       - 9090:9090
     volumes:
       - ./prometheus/config.yaml:/etc/prometheus/config.yaml
       - ./prometheus_data:/etc/prometheus/data
-    command: -config.file=/etc/prometheus/config.yaml
+    command: --config.file=/etc/prometheus/config.yaml
     logging: *loki-logging
 
   node_exporter:
