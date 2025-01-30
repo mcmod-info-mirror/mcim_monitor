@@ -33,7 +33,7 @@ limits_config:
   retention_period: 336h
 
 compactor:
-  working_directory: /data/retention
+  working_directory: /tmp/retention
   compaction_interval: 10m
   retention_enabled: true
   retention_delete_delay: 2h
