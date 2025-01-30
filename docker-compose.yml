@@ -4,7 +4,7 @@ x-logging: &loki-logging
     loki-url: "http://localhost:3100/loki/api/v1/push"
     max-size: "50m"
     max-file: "10"
-  
+
 services:
   grafana:
     image: grafana/grafana
@@ -29,6 +29,7 @@ services:
       - 9090:9090
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    logging: *loki-logging
 
   node_exporter:
     image: quay.io/prometheus/node-exporter:latest
