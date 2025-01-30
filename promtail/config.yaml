@@ -15,54 +15,42 @@ scrape_configs:
       - localhost
     labels:
       job: nginx-access-log
-      __path__: /var/log/nginx/access.log
+      __path__: /var/log/nginx/api_access.log
   pipeline_stages:
   - match:
       selector: '{job="nginx-access-log"}'
-      stages:
-      - json:  # 日志为json格式 选择需要的字段
-          expressions:
-            remote_addr:
-            request_uri:
-            verb:
-            httpversion:
-            response:
-            body_bytes_sent:
-            referrer:
-            user_agent:
-            http_x_forwarded_for:
-            server_name:
-            request_time:
-            upstream_response_time:
-            upstream_addr:
-            realpath_root:
-            cookie:
-            nginx_version:
-            scheme:
-            time:
-      - labels:
-            remote_addr:
-            request_uri:
-            verb:
-            httpversion:
-            response:
-            body_bytes_sent:
-            referrer:
-            user_agent:
-            http_x_forwarded_for:
-            server_name:
-            request_time:
-            upstream_response_time:
-            upstream_addr:
-            realpath_root:
-            cookie:
-            nginx_version:
-            scheme:
-            time:
-      - timestamp:
-          format: '2006-01-02T15:04:05+08:00'
-          source:  time
-          location: Asia/Shanghai
+  stages:
+  - json:  # 解析 JSON 格式的日志
+      expressions:
+        remote_addr:
+        request_uri:
+        verb:
+        httpversion:
+        response:
+        body_bytes_sent:
+        referrer:
+        user_agent:
+        http_x_forwarded_for:
+        server_name:
+        request_time:
+        upstream_response_time:
+        upstream_addr:
+        realpath_root:
+        cookie:
+        nginx_version:
+        scheme:
+        time:
+
+  - labels:  # 只选择低基数字段作为标签
+        remote_addr:
+        verb:
+        response:
+        server_name:
+        scheme:
+  - timestamp:
+      format: '2006-01-02T15:04:05+08:00'
+      source:  time
+      location: Asia/Shanghai
 
 - job_name: nginx-error
   static_configs:
