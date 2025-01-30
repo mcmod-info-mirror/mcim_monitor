@@ -1,9 +1,15 @@
 x-logging: &loki-logging
-  driver: loki
+  driver: local
   options:
-    loki-url: "http://localhost:3100/loki/api/v1/push"
     max-size: "50m"
     max-file: "10"
+
+# x-logging: &loki-logging
+#   driver: loki
+#   options:
+#     loki-url: "http://localhost:3100/loki/api/v1/push"
+#     max-size: "50m"
+#     max-file: "10"
 
 services:
   grafana:
@@ -28,8 +34,9 @@ services:
     ports:
       - 9090:9090
     volumes:
-      - ./prometheus/config.yml:/etc/prometheus/config.yml
+      - ./prometheus/config.yaml:/etc/prometheus/config.yaml
       - ./prometheus_data:/etc/prometheus/data
+    command: -config.file=/etc/prometheus/config.yaml
     logging: *loki-logging
 
   node_exporter:
@@ -64,6 +71,6 @@ services:
     image: grafana/promtail:latest
     volumes:
       - /var/log:/var/log
-      - ./promtail/config.yml:/etc/promtail/config.yml
-    command: -config.file=/etc/promtail/config.yml
+      - ./promtail/config.yaml:/etc/promtail/config.yaml
+    command: -config.file=/etc/promtail/config.yaml
     logging: *loki-logging
