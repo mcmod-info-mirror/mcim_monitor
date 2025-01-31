@@ -42,7 +42,6 @@ scrape_configs:
         time:
 
   - labels:  # 只选择低基数字段作为标签
-        remote_addr:
         verb:
         response:
         server_name:
