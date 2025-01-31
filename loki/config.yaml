@@ -5,10 +5,8 @@ server:
 
 common:
   ring:
-    instance_addr: 127.0.0.1
     kvstore:
       store: inmemory
-  replication_factor: 1
   path_prefix: /tmp/loki
 
 schema_config:
@@ -39,3 +37,9 @@ compactor:
   retention_delete_delay: 2h
   retention_delete_worker_count: 150
   delete_request_store: filesystem
+
+ingester:
+  max_chunk_age: 8h
+  chunk_idle_period: 8h
+  chunk_target_size: 1572864
+  chunk_encoding: zstd
