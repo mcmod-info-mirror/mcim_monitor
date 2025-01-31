@@ -7,6 +7,7 @@ common:
   ring:
     kvstore:
       store: inmemory
+  replication_factor: 1
   path_prefix: /tmp/loki
 
 schema_config:
