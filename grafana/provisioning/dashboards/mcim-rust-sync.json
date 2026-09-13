@@ -383,6 +383,7 @@
         "type": "prometheus",
         "uid": "${DS_PROMETHEUS}"
       },
+      "description": "The last duration of each task in seconds.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -405,7 +406,7 @@
               "viz": false
             },
             "insertNulls": false,
-            "lineInterpolation": "linear",
+            "lineInterpolation": "stepAfter",
             "lineWidth": 2,
             "pointSize": 5,
             "scaleDistribution": {
@@ -465,12 +466,13 @@
       "pluginVersion": "12.2.0-17027759091",
       "targets": [
         {
-          "expr": "histogram_quantile(0.95, sum by (task, le) (rate(mcim_sync_task_duration_seconds_bucket{job=~\"$job\", instance=~\"$instance\"}[15m])))",
+          "expr": "mcim_sync_task_duration_seconds{job=~\"$job\", instance=~\"$instance\"}",
+          "interval": "15s",
           "legendFormat": "{{task}}",
           "refId": "A"
         }
       ],
-      "title": "Task duration p95",
+      "title": "Task duration",
       "type": "timeseries"
     },
     {
